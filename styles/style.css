@@ -6,3 +6,9 @@ html, body {
 #container {
     margin: 0!important;
 }
+
+@media only screen and (min-width: 993px) {
+    .container {
+        width: 90%!important;
+    }
+}

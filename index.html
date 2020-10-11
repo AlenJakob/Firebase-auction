@@ -3,37 +3,166 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" />
     <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-analytics.js"></script>
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/spaceHelpers.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 
 <body>
-    <div id="nav">
-        <!-- Dropdown Structure -->
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Jax-action</a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="sass.html">Sign in</a></li>
-                    <li><a href="badges.html">Sign up</a></li>
-                    <li><a href="badges.html">Account</a></li>
-                </ul>
-            </div>
-        </nav>
 
-    </div>
-    <div id="container" class="card-panel teal lighten-4">
+    <!-- NAVBAR -->
+    <nav class="z-depth-0 teal lighten-1">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo white-text">
+                JAX-Auction
+            </a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li class="logged-in">
+                    <a href="#" class="white-text modal-trigger" data-target="modal-account">Account</a>
+                </li>
+                <li class="logged-in">
+                    <a href="#" class="white-text" id="logout">Logout</a>
+                </li>
+                <li class="logged-in">
+                    <a href="#" class="white-text modal-trigger" data-target="modal-create">Add Item for sale</a>
+                </li>
+                <li class="logged-out">
+                    <a href="#" class="white-text modal-trigger" data-target="modal-login">Login</a>
+                </li>
+                <li class="logged-out">
+                    <a href="#" class="white-text modal-trigger" data-target="modal-signup">Sign up</a>
+                </li>
+                <li class="contact">
+                    <a href="#" class="white-text modal-trigger">Contact</a>
+                </li>
+            </ul>
+    </nav>
 
-        <h3>Welcome</h3>
+    <!-- SELECT -->
+
+    <!-- SELECT -->
+
+    <!-- Modals -->
+    <!-- LOGIN MODAL -->
+    <div id="modal-login" class="modal">
+        <div class="modal-content">
+            <h6>Login</h6><br />
+            <form id="login-form">
+                <div class="input-field">
+                    <input type="email" id="login-email" required />
+                    <label for="login-email">Email address</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" id="login-password" required />
+                    <label for="login-password">Your password</label>
+                </div>
+                <button class="btn teal darken-2 z-depth-0">Login</button>
+            </form>
+        </div>
     </div>
-    <script src="scripts/app.js"></script>
+    <!-- SIGN UP MODAL -->
+    <div id="modal-signup" class="modal">
+        <div class="modal-content">
+            <h6>Sign up</h6><br />
+            <form id="signup-form">
+                <div class="input-field">
+                    <input type="email" id="email" required />
+                    <label for="email">Email address</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" id="password" required />
+                    <label for="password">Choose password</label>
+                </div>
+                <button class="btn teal darken-2 z-depth-0">Sign up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CREATE AUCTION MODAL -->
+    <div id="modal-create" class="modal">
+        <div class="modal-content">
+            <h6>Create Auction Offer</h6><br />
+            <form id="create-form">
+                <div class="input-field">
+                    <input type="text" id="title" required>
+                    <label for="title">Item Title</label>
+                </div>
+                <div class="input-field">
+                    <textarea id="content" class="materialize-textarea" required></textarea>
+                    <label for="content">Item Descrtiption</label>
+                </div>
+
+
+                <div class="input-field">
+                    <input type="number" id="price" required>
+                    <label for="price">Item Price</label>
+                </div>
+
+                <div class="row">
+
+                    <label>Browser Select</label>
+                    <select class="browser-default">
+                        <option value="" selected>Choose your category</option>
+                        <option value="1">Option 1</option>
+                    </select>
+                    <div class="switch">
+                        <h6>Private Offer </h6>
+                        <label>
+                            No
+                            <input type="checkbox">
+                            <span class="lever"></span>
+                            Yes
+                        </label>
+                    </div>
+
+                    <div class="switch">
+                        <h6>Negotiatons</h6>
+                        <label>
+                            No
+                            <input type="checkbox">
+                            <span class="lever"></span>
+                            Yes
+                        </label>
+                    </div>
+
+                    <div class="switch">
+                        <h6>State of Item</h6>
+                        <label>
+                            New
+                            <input type="checkbox">
+                            <span class="lever"></span>
+                            Used
+                        </label>
+                    </div>
+                </div>
+
+
+
+
+                <button class="btn teal darken-2 z-depth-0">Create</button>
+            </form>
+        </div>
+    </div>
+    <!-- ACCOUNT MODAL -->
+    <div id="modal-account" class="modal">
+        <div class="modal-content">
+            <h6>Account Bio</h6>
+        </div>
+    </div>
+
+    <!-- END -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <script src="scripts/firebase.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/modal.js"></script>
 </body>
 
 </html>
