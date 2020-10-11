@@ -1,0 +1,22 @@
+{
+  "name": "jax-auction",
+  "version": "1.0.0",
+  "description": "auction service",
+  "main": "appjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/AlenJakob/Firebase-auction.git"
+  },
+  "keywords": [
+    "jax"
+  ],
+  "author": "Alen Jakob",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlenJakob/Firebase-auction/issues"
+  },
+  "homepage": "https://github.com/AlenJakob/Firebase-auction#readme"
+}
