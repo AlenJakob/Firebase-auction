@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-analytics.js"></script>
@@ -12,10 +14,25 @@
 </head>
 
 <body>
+    <div id="nav">
+        <!-- Dropdown Structure -->
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo">Jax-action</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="sass.html">Sign in</a></li>
+                    <li><a href="badges.html">Sign up</a></li>
+                    <li><a href="badges.html">Account</a></li>
+                </ul>
+            </div>
+        </nav>
 
+    </div>
+    <div id="container" class="card-panel teal lighten-4">
 
+        <h3>Welcome</h3>
+    </div>
     <script src="scripts/app.js"></script>
-    
     <script src="scripts/firebase.js"></script>
 </body>
 
