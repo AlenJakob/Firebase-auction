@@ -13,7 +13,7 @@ const setupAuction = auctionList => {
             <span class="col s6 right-align"><h5>${auction.price}€</h5></span>
             </div>
             <div class="body">
-            <img class="materialboxed " width="450" src="${auction.images[1]}">
+           
             ${auction.description}
             </div>
             </li>
@@ -40,3 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
     M.Collapsible.init(items);
 
 });
+
+
+ // <img class="materialboxed " width="450" src="${auction.images[1]}">

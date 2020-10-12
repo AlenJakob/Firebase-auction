@@ -1,6 +1,5 @@
 const signupForm = document.querySelector('#signup-form');
 const loginForm = document.querySelector('#login-form');
-const createForm = document.querySelector('#create-form');
 // USER BIO INFORMATION MODAL
 const accBio = document.querySelector('#user-bio')
 
@@ -46,7 +45,21 @@ auth.onAuthStateChanged(user => {
     }
 })
 
+// add new auction
 
+
+const createForm = document.querySelector('#create-form');
+createForm.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    console.log(createForm['title'].value)
+    db.collection('auctions').add({
+        title: createForm['title'].value,
+        price: createForm['price'].value,
+        description: createForm['description'].value,
+    }).then(() => {
+        closeModal('create', createForm)
+    }).catch(err => console.log(err, err.message))
+})
 // register new user
 
 signupForm.addEventListener('submit', (ev) => {
