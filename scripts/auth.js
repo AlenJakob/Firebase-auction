@@ -1,6 +1,8 @@
 const signupForm = document.querySelector('#signup-form');
 const loginForm = document.querySelector('#login-form');
 const createForm = document.querySelector('#create-form');
+// USER BIO INFORMATION MODAL
+const accBio = document.querySelector('#user-bio')
 
 // hide/show links menu depend of logged
 const loggedOutLinks = document.querySelectorAll('.logged-out');
@@ -16,21 +18,31 @@ const menuUI = user => {
     }
 }
 
+
+
+
+// HANDLE CLOSE MODAL
 function closeModal(modalName, form) {
     const modal = document.querySelector(`#modal-${modalName}`);
     M.Modal.getInstance(modal).close();
     form.reset()
 }
 
-// lsiten for auth status
+// listen for auth status
 auth.onAuthStateChanged(user => {
     if (user) {
-        console.log('user is logged in');
-        menuUI(user)
+        db.collection('auctions').onSnapshot(snapshot => {
+            setupAuction(snapshot.docs)
+        })
+        accBio.innerHTML = `
+        <li>
+        ${user.email}
+        </li>
+        `;
+        menuUI(user);
     } else if (!user) {
-        menuUI(user)
-        console.log('user is not longer logged');
-
+        menuUI(user);
+        setupAuction([]);
     }
 })
 
