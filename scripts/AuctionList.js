@@ -13,7 +13,6 @@ const setupAuction = auctionList => {
             <span class="col s6 right-align"><h5>${auction.price}€</h5></span>
             </div>
             <div class="body">
-           
             ${auction.description}
             </div>
             </li>
