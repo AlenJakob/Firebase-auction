@@ -1,3 +1,5 @@
+import { auth, db } from "./firebase";
+import { setupAuction } from "./AuctionList";
 const signupForm = document.querySelector('#signup-form');
 const loginForm = document.querySelector('#login-form');
 // USER BIO INFORMATION MODAL
@@ -30,6 +32,7 @@ function closeModal(modalName, form) {
 // listen for auth status
 auth.onAuthStateChanged(user => {
     if (user) {
+        localStorage.setItem("userId", user.uid)
         db.collection('auctions').onSnapshot(snapshot => {
             setupAuction(snapshot.docs)
         })
@@ -47,11 +50,12 @@ auth.onAuthStateChanged(user => {
 
 // add new auction
 
-
 const createForm = document.querySelector('#create-form');
+
 createForm.addEventListener('submit', (ev) => {
     ev.preventDefault();
-    console.log(createForm['title'].value)
+
+    console.log(localStorage.getItem("userId"))
     db.collection('auctions').add({
         title: createForm['title'].value,
         price: createForm['price'].value,
@@ -59,7 +63,8 @@ createForm.addEventListener('submit', (ev) => {
     }).then(() => {
         closeModal('create', createForm)
     }).catch(err => console.log(err, err.message))
-})
+});
+
 // register new user
 
 signupForm.addEventListener('submit', (ev) => {
@@ -77,7 +82,7 @@ signupForm.addEventListener('submit', (ev) => {
 });
 
 // login existing user
-loginForm.addEventListener('click', (ev) => {
+loginForm.addEventListener('submit', (ev) => {
     ev.preventDefault();
     const email = loginForm['login-email'].value;
     const password = loginForm['login-password'].value;

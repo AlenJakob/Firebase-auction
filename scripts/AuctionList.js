@@ -5,7 +5,6 @@ const setupAuction = auctionList => {
         let html = '';
         auctionList.forEach(doc => {
             const auction = doc.data();
-            console.log(doc.id);
             const li = `
             <li>
             <div class="mb0 row header teal lighten-3 white-text">
@@ -32,13 +31,13 @@ const setupAuction = auctionList => {
 // setup materialize components
 document.addEventListener('DOMContentLoaded', function () {
 
-    var modals = document.querySelectorAll('.modal');
+    let modals = document.querySelectorAll('.modal');
     M.Modal.init(modals);
 
-    var items = document.querySelectorAll('.collapsible');
+    let items = document.querySelectorAll('.collapsible');
     M.Collapsible.init(items);
 
 });
 
 
- // <img class="materialboxed " width="450" src="${auction.images[1]}">
+export { setupAuction }
