@@ -32,15 +32,21 @@ function closeModal(modalName, form) {
 // listen for auth status
 auth.onAuthStateChanged(user => {
     if (user) {
-        localStorage.setItem("userId", user.uid)
+        localStorage.setItem("userId", user.uid);
         db.collection('auctions').onSnapshot(snapshot => {
             setupAuction(snapshot.docs)
+        });
+        db.collection('users').doc(user.uid).get().then((doc) => {
+            let name = doc.data() ? doc.data().name : "no added name";
+            accBio.innerHTML = `
+            <li>
+            Email : ${user.email}
+            </li>
+            <li>
+            Name : ${name}
+            </li>
+            `;
         })
-        accBio.innerHTML = `
-        <li>
-        ${user.email}
-        </li>
-        `;
         menuUI(user);
     } else if (!user) {
         menuUI(user);
@@ -74,10 +80,12 @@ signupForm.addEventListener('submit', (ev) => {
 
     const email = signupForm['email'].value;
     const password = signupForm['password'].value;
-    closeModal("signup", signupForm)
     auth.createUserWithEmailAndPassword(email, password).then((cred) => {
-        // console.log(cred.user);
-
+        return db.collection('users').doc(cred.user.uid).set({
+            name: signupForm['full-name'].value
+        });
+    }).then(() => {
+        closeModal("signup", signupForm);
     })
 });
 
