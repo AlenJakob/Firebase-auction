@@ -10,9 +10,9 @@ const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 
 
-
 const menuUI = user => {
     if (user) {
+        console.log(user.email);
         loggedInLinks.forEach(link => link.style.display = 'block')
         loggedOutLinks.forEach(link => link.style.display = 'none')
     } else if (!user) {
@@ -20,8 +20,6 @@ const menuUI = user => {
         loggedOutLinks.forEach(link => link.style.display = 'block')
     }
 }
-
-
 
 
 // HANDLE CLOSE MODAL
@@ -110,10 +108,13 @@ createForm.addEventListener('submit', (ev) => {
         title: createForm['title'].value,
         price: createForm['price'].value,
         description: createForm['description'].value,
+        offerType: createForm["private_offer"].checked,
+        itemState: createForm["item_state"].checked
     }
     ).then(() => {
 
         closeModal('create', createForm)
     }).catch(err => console.log(err, err.message))
 });
+
 

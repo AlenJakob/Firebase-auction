@@ -13,8 +13,14 @@ html, body {
     }
 }
 
-.btn-delete:hover {
+.btn_del:hover {
     transition: .1s;
     cursor: pointer;
     color: red!important;
+}
+
+.btn_edit:hover {
+    transition: .1s;
+    cursor: pointer;
+    color: royalblue!important;
 }

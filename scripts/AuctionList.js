@@ -6,55 +6,44 @@ const setupAuction = auctionList => {
     if (auctionList.length) {
         auctionList.forEach(doc => {
             const auction = doc.data();
-            console.log(doc.id);
 
-            const li = document.createElement("li");
-            li.setAttribute("data-id", doc.id)
-            const divTitleAndPrice = document.createElement("div");
-            divTitleAndPrice.classList = "mb0 row header teal lighten-3 white-text ";
+            const html = `
+            <div class="row" data-id="${doc.id}">
+            <div class="col s12 m7">
+              <div class="card">
+                <div class="pt20 pl20">
+                  <span class="card-title"><b>${auction.title}</b></span>
+                </div>
+                <div class="card-content">
+                  <p>${auction.description}</p>
+                </div>
+                <div class="card-action collection">
+                  <div class="collection-item">Offered By : <b>${auction.itemState === false ? "Private" : "Company"}</b></div>
+                  <div class="collection-item">Item : <b>${auction.offerType === false ? "Used" : "New"}</b></div>
+                </div>
+              </div>
+              <div class="btn_edit material-icons">edit</div>
+              <div class="btn_del material-icons">close</div>
+            </div>
+          </div>
+            `;
 
-            const divDescription = document.createElement("div")
-            const title = document.createElement("span");
-            const price = document.createElement("span");
+            auctionDomList.innerHTML += html;
+            const btns = document.querySelectorAll(".btn_del");
+            for (const btn of btns) {
+                btn.addEventListener('click', function (event) {
+                    const id = event.target.parentElement.parentElement.getAttribute("data-id");
+                    console.log(id);
+                    db.collection("auctions").doc(id).delete();
+                    auctionDomList.innerHTML = "";
+                })
+            }
 
-            divDescription.classList = "body card-panel";
-            divDescription.textContent = auction.description;
-
-            price.classList = "col s6 right-align";
-            price.innerHTML = `<h5>${auction.price}</h5>`
-
-
-            title.classList = "col s6";
-            title.innerHTML = `<h5>${auction.title}</h5>`
-
-
-            let deleteBtn = document.createElement("div");
-            deleteBtn.textContent = "delete"
-            deleteBtn.classList = "right-align pr10 pt10 pb10 white btn-delete pink-text text-lighten-3";
-
-
-            li.appendChild(deleteBtn)
-            li.appendChild(divTitleAndPrice)
-            divTitleAndPrice.appendChild(title)
-            divTitleAndPrice.appendChild(price)
-            li.appendChild(divDescription)
-
-
-            auctionDomList.appendChild(li);
-
-
-            deleteBtn.addEventListener("click", (ev) => {
-                ev.stopPropagation()
-                let id = ev.target.parentElement.getAttribute("data-id");
-                console.log(id);
-                db.collection("auctions").doc(id).delete();
-                auctionDomList.innerHTML = ''
-            })
         });
     } else {
         auctionDomList.innerHTML = `
-        <h3> You have Sign In to view auction's</h3>
-        `
+        <h3> You have Sign In to view auction's or There is no auction available right now</h3>
+        `;
     }
 
 }
@@ -71,4 +60,4 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-export { setupAuction , auctionDomList }
+export { setupAuction, auctionDomList }
