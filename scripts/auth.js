@@ -1,5 +1,5 @@
 import { auth, db } from "./firebase";
-import { setupAuction } from "./AuctionList";
+import { setupAuction, auctionDomList } from "./AuctionList";
 const signupForm = document.querySelector('#signup-form');
 const loginForm = document.querySelector('#login-form');
 // USER BIO INFORMATION MODAL
@@ -8,6 +8,8 @@ const accBio = document.querySelector('#user-bio')
 // hide/show links menu depend of logged
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
+
+
 
 const menuUI = user => {
     if (user) {
@@ -32,19 +34,19 @@ function closeModal(modalName, form) {
 // listen for auth status
 auth.onAuthStateChanged(user => {
     if (user) {
-        localStorage.setItem("userId", user.uid);
         db.collection('auctions').onSnapshot(snapshot => {
             setupAuction(snapshot.docs)
         });
         db.collection('users').doc(user.uid).get().then((doc) => {
-            accBio.innerHTML = `
-            <li>
-            Email : ${user.email}
-            </li>
-            <li>
-            Name : ${doc.data() ? doc.data().name : "no added name"}
-            </li>
-            `;
+
+            const liEmail = document.createElement("li");
+            liEmail.textContent = user.email;
+            const liName = document.createElement("li");
+            liName.textContent = doc.data() ? doc.data().name : "no added name";
+
+
+            accBio.appendChild(liEmail);
+            accBio.appendChild(liName)
         }, err => console.log(err.message))
         menuUI(user);
     } else if (!user) {
@@ -53,22 +55,6 @@ auth.onAuthStateChanged(user => {
     }
 })
 
-// add new auction
-
-const createForm = document.querySelector('#create-form');
-
-createForm.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-
-    console.log(localStorage.getItem("userId"))
-    db.collection('auctions').add({
-        title: createForm['title'].value,
-        price: createForm['price'].value,
-        description: createForm['description'].value,
-    }).then(() => {
-        closeModal('create', createForm)
-    }).catch(err => console.log(err, err.message))
-});
 
 // register new user
 
@@ -108,4 +94,26 @@ logOut.addEventListener('click', (ev) => {
     });
 });
 
+
+
+
+// Auction managment
+
+// add new auction
+
+const createForm = document.querySelector('#create-form');
+
+createForm.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    auctionDomList.innerHTML = '';
+    db.collection('auctions').add({
+        title: createForm['title'].value,
+        price: createForm['price'].value,
+        description: createForm['description'].value,
+    }
+    ).then(() => {
+
+        closeModal('create', createForm)
+    }).catch(err => console.log(err, err.message))
+});
 
