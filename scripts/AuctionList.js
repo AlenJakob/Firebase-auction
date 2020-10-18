@@ -5,9 +5,12 @@ const setupAuction = auctionList => {
         let html = '';
         auctionList.forEach(doc => {
             const auction = doc.data();
+            console.log(doc.id);
             const li = `
-            <li>
+            <li data-id="${doc.id}">
             <div class="mb0 row header teal lighten-3 white-text">
+            
+            <div class="right-align pr10 pt10 pb10 white btn-delete pink-text text-lighten-3">delete</div>
             <span class="col s6 "><h5>${auction.title}</h5></span>
             <span class="col s6 right-align"><h5>${auction.price}€</h5></span>
             </div>

@@ -37,16 +37,15 @@ auth.onAuthStateChanged(user => {
             setupAuction(snapshot.docs)
         });
         db.collection('users').doc(user.uid).get().then((doc) => {
-            let name = doc.data() ? doc.data().name : "no added name";
             accBio.innerHTML = `
             <li>
             Email : ${user.email}
             </li>
             <li>
-            Name : ${name}
+            Name : ${doc.data() ? doc.data().name : "no added name"}
             </li>
             `;
-        })
+        }, err => console.log(err.message))
         menuUI(user);
     } else if (!user) {
         menuUI(user);
@@ -75,9 +74,6 @@ createForm.addEventListener('submit', (ev) => {
 
 signupForm.addEventListener('submit', (ev) => {
     ev.preventDefault();
-
-    // db.collections('users')
-
     const email = signupForm['email'].value;
     const password = signupForm['password'].value;
     auth.createUserWithEmailAndPassword(email, password).then((cred) => {
@@ -111,4 +107,5 @@ logOut.addEventListener('click', (ev) => {
         console.log('there went something wrong', error, error.message)
     });
 });
+
 
