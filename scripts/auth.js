@@ -42,6 +42,8 @@ auth.onAuthStateChanged(user => {
             const liName = document.createElement("li");
             liName.textContent = doc.data() ? doc.data().name : "no added name";
 
+            const isLogged = document.querySelector("#logout");
+            isLogged.innerHTML = `Logout (<b class="lime-text"> ${doc.data().name} </b>)`;
 
             accBio.appendChild(liEmail);
             accBio.appendChild(liName)

@@ -8,7 +8,7 @@ const setupAuction = auctionList => {
             const auction = doc.data();
 
             const html = `
-            <div class="row" data-id="${doc.id}">
+            <div class="row" >
             <div class="col s12 m7">
               <div class="card">
                 <div class="pt20 pl20">
@@ -23,7 +23,7 @@ const setupAuction = auctionList => {
                 </div>
               </div>
               <div class="btn_edit material-icons">edit</div>
-              <div class="btn_del material-icons">close</div>
+              <div data-id="${doc.id}" class="btn_del material-icons">close</div>
             </div>
           </div>
             `;
@@ -32,7 +32,7 @@ const setupAuction = auctionList => {
             const btns = document.querySelectorAll(".btn_del");
             for (const btn of btns) {
                 btn.addEventListener('click', function (event) {
-                    const id = event.target.parentElement.parentElement.getAttribute("data-id");
+                    const id = event.target.getAttribute("data-id");
                     console.log(id);
                     db.collection("auctions").doc(id).delete();
                     auctionDomList.innerHTML = "";
