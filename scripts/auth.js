@@ -1,6 +1,7 @@
 import { auth, db } from "./firebase";
 import { setupAuction, auctionDomList } from "./AuctionList";
 import { date, time } from "./dateAndTime"
+import 'regenerator-runtime/runtime'
 const signupForm = document.querySelector('#signup-form');
 const loginForm = document.querySelector('#login-form');
 // USER BIO INFORMATION MODAL
@@ -140,4 +141,12 @@ createForm.addEventListener('submit', (ev) => {
 
 
 
-console.log("current user ", );
+auth.onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      console.log(user.uid);
+    } else {
+      // No user is signed in.
+    }
+  });
+   
