@@ -1,5 +1,6 @@
 import { auth, db } from "./firebase";
 import { setupAuction, auctionDomList } from "./AuctionList";
+import { date, time } from "./dateAndTime"
 const signupForm = document.querySelector('#signup-form');
 const loginForm = document.querySelector('#login-form');
 // USER BIO INFORMATION MODAL
@@ -33,7 +34,8 @@ function closeModal(modalName, form) {
 auth.onAuthStateChanged(user => {
     if (user) {
         db.collection('auctions').onSnapshot(snapshot => {
-            setupAuction(snapshot.docs)
+            setupAuction(snapshot.docs);
+            console.log(snapshot.docs);
         });
         db.collection('users').doc(user.uid).get().then((doc) => {
 
@@ -70,6 +72,16 @@ signupForm.addEventListener('submit', (ev) => {
         closeModal("signup", signupForm);
     })
 });
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        // User is signed in.
+        console.log("users", user.uid);
+        localStorage.setItem("userId", user.uid)
+    } else {
+        // No user is signed in.
+        localStorage.removeItem("userId")
+    }
+});
 
 // login existing user
 loginForm.addEventListener('submit', (ev) => {
@@ -78,8 +90,12 @@ loginForm.addEventListener('submit', (ev) => {
     const password = loginForm['login-password'].value;
 
     auth.signInWithEmailAndPassword(email, password).then((cred) => {
-        console.log(cred.user)
+        if (!cred.user) {
+            console.log("my message ", cred);
+        }
         closeModal("login", loginForm)
+    }).catch(err => {
+        console.log(err, cred.message);
     })
 });
 
@@ -99,7 +115,7 @@ logOut.addEventListener('click', (ev) => {
 
 // Auction managment
 
-// add new auction
+// create new auction
 
 const createForm = document.querySelector('#create-form');
 
@@ -111,12 +127,17 @@ createForm.addEventListener('submit', (ev) => {
         price: createForm['price'].value,
         description: createForm['description'].value,
         offerType: createForm["private_offer"].checked,
-        itemState: createForm["item_state"].checked
+        itemState: createForm["item_state"].checked,
+        idAuth: localStorage.getItem("userId"),
+        currDate: date,
+        currTime: time
     }
     ).then(() => {
-
         closeModal('create', createForm)
     }).catch(err => console.log(err, err.message))
 });
 
 
+
+
+console.log("current user ", );
