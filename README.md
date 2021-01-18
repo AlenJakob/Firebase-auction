@@ -6,6 +6,6 @@ Working with :
 
 - Materialize
 
-- Firebase 
+- Firebase  - authentication  - sign in / out
 
 - Npm
